@@ -1,29 +1,40 @@
 #include "llrec.h"
+#include <iostream>
 
 //*********************************************
 // Provide your implementation of llpivot below
 //*********************************************
-void llppivot (Node *&head, Node *&smaller, Node *&larger, int pivot){
+void llpivot (Node *&head, Node *&smaller, Node *&larger, int pivot){
+	if(head == nullptr){
+		//std::cout << "empty input list" << std::endl;
+		smaller = nullptr;
+		larger = nullptr;
+		return;
+	}
+
+	Node* headnext = head->next;
+
 	if(head->next == nullptr){
 		if(head->val <= pivot){
 			smaller = head;
-			return;
+			smaller->next = nullptr;
+			larger = smaller->next;
 		}
-		if(head->val > pivot){
+		else if(head->val > pivot){
 			larger = head;
-			return;
+			larger->next = nullptr;
+			smaller = larger->next;
 		}
 	}
-	else if(head->val <= pivot){
+ 	else if(head->val <= pivot){
 		smaller = head;
-		llpivot(head->next, smaller->next, larger, pivot);
+		llpivot(headnext, smaller->next, larger, pivot);
 	}
 	else if(head->val > pivot){
 		larger = head;
-		llpivot(head->next, smaller, larger->next, pivot);
+		llpivot(headnext, smaller, larger->next, pivot);
 	}
-	head = NULL;
-	head->next = nullptr;
+	head = nullptr;
 }
 
 
